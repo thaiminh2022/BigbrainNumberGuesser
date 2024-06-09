@@ -1,0 +1,50 @@
+[gd_scene load_steps=4 format=3 uid="uid://ljk0p53tcj87"]
+
+[ext_resource type="PackedScene" uid="uid://dqyw230f8v1yw" path="res://scenes/managers/game_manager.tscn" id="1_nm307"]
+[ext_resource type="Script" path="res://scripts/visual_hooker.gd" id="1_ofu35"]
+[ext_resource type="Script" path="res://scripts/number_input.gd" id="2_ec3oq"]
+
+[node name="Main" type="Node"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("num_input", "text_scroll_container")]
+script = ExtResource("1_ofu35")
+num_input = NodePath("MarginContainer/VBoxContainer/NumberInput")
+text_scroll_container = NodePath("MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+
+[node name="NumberInput" type="HBoxContainer" parent="CanvasLayer/MarginContainer/VBoxContainer" node_paths=PackedStringArray("num_line_edit", "submit_btn")]
+layout_mode = 2
+size_flags_vertical = 8
+script = ExtResource("2_ec3oq")
+num_line_edit = NodePath("LineEdit")
+submit_btn = NodePath("Button")
+
+[node name="LineEdit" type="LineEdit" parent="CanvasLayer/MarginContainer/VBoxContainer/NumberInput"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+
+[node name="Button" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/NumberInput"]
+layout_mode = 2
+text = "Submit"
+
+[node name="GameManager" parent="." node_paths=PackedStringArray("num_input") instance=ExtResource("1_nm307")]
+num_input = NodePath("../CanvasLayer/MarginContainer/VBoxContainer/NumberInput/LineEdit")
