@@ -1,14 +1,30 @@
-[gd_scene load_steps=2 format=3 uid="uid://dqyw230f8v1yw"]
+[gd_scene load_steps=6 format=3 uid="uid://dqyw230f8v1yw"]
 
 [ext_resource type="Script" path="res://scripts/managers/game_manager.gd" id="1_enkkc"]
+[ext_resource type="Script" path="res://scripts/managers/game_manager_states/game_manager_new_game.gd" id="2_ml56w"]
+[ext_resource type="Script" path="res://scripts/managers/game_manager_states/game_manager_number_guessing.gd" id="3_vbnvh"]
+[ext_resource type="Script" path="res://scripts/managers/game_manager_states/game_manager_position_guessing.gd" id="4_6tng0"]
+[ext_resource type="Script" path="res://scripts/managers/game_manager_states/game_manager_finalize.gd" id="5_abemw"]
 
-[node name="GameManager" type="Node"]
+[node name="GameManager" type="Node" node_paths=PackedStringArray("new_game_state", "number_guessing_state", "position_guessing_state", "finalize_state")]
 script = ExtResource("1_enkkc")
+new_game_state = NodePath("NewGameState")
+number_guessing_state = NodePath("NumberGuessingState")
+position_guessing_state = NodePath("PositionGuessingState")
+finalize_state = NodePath("FinalizeState")
 
-[node name="NewGameState" type="Node" parent="."]
+[node name="NewGameState" type="Node" parent="." node_paths=PackedStringArray("game_manager")]
+script = ExtResource("2_ml56w")
+game_manager = NodePath("..")
 
-[node name="NumberGuessingState" type="Node" parent="."]
+[node name="NumberGuessingState" type="Node" parent="." node_paths=PackedStringArray("game_manager")]
+script = ExtResource("3_vbnvh")
+game_manager = NodePath("..")
 
-[node name="PositionGuessingState" type="Node" parent="."]
+[node name="PositionGuessingState" type="Node" parent="." node_paths=PackedStringArray("game_manager")]
+script = ExtResource("4_6tng0")
+game_manager = NodePath("..")
 
-[node name="FinalizeState" type="Node" parent="."]
+[node name="FinalizeState" type="Node" parent="." node_paths=PackedStringArray("game_manager")]
+script = ExtResource("5_abemw")
+game_manager = NodePath("..")
