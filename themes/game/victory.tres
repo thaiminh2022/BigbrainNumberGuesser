@@ -1,9 +1,11 @@
-[gd_resource type="Theme" load_steps=7 format=3 uid="uid://ddssu5k0mqv1m"]
+[gd_resource type="Theme" load_steps=8 format=3 uid="uid://ddssu5k0mqv1m"]
 
 [ext_resource type="FontFile" uid="uid://c71aevsqnyp5b" path="res://fonts/Roboto-Bold.ttf" id="1_vthk2"]
 [ext_resource type="StyleBox" uid="uid://bchwf850loagu" path="res://themes/game/btns/btns.tres" id="2_7rwr8"]
 [ext_resource type="StyleBox" uid="uid://bowaggrigornv" path="res://themes/game/btns/btns_selected.tres" id="3_t5ha4"]
 [ext_resource type="FontFile" uid="uid://clybsd1a2ntah" path="res://fonts/Roboto-Regular.ttf" id="4_bppt4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7hmxa"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5spm7"]
 bg_color = Color(1, 1, 1, 1)
@@ -22,6 +24,7 @@ expand_margin_bottom = 5.0
 Button/colors/font_color = Color(1, 1, 1, 1)
 Button/font_sizes/font_size = 48
 Button/fonts/font = ExtResource("1_vthk2")
+Button/styles/focus = SubResource("StyleBoxEmpty_7hmxa")
 Button/styles/hover = ExtResource("2_7rwr8")
 Button/styles/normal = ExtResource("2_7rwr8")
 Button/styles/pressed = ExtResource("3_t5ha4")

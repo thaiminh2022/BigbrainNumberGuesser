@@ -20,6 +20,7 @@ func _submit_number() -> void:
     
     # Check if it's a command and execute it
     if do_command(text):
+        num_line_edit.clear();
         return
 
     var is_valid := _is_valid_text(text);
@@ -27,6 +28,7 @@ func _submit_number() -> void:
     
     if is_valid:
         GameManager.instance.guess_number(number)
+        num_line_edit.clear();
 
 func do_command(text: String) -> bool:
     

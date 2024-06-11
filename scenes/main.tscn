@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://ljk0p53tcj87"]
+[gd_scene load_steps=19 format=3 uid="uid://ljk0p53tcj87"]
 
 [ext_resource type="PackedScene" uid="uid://dqyw230f8v1yw" path="res://scenes/managers/game_manager.tscn" id="1_nm307"]
 [ext_resource type="Script" path="res://scripts/guessing_board.gd" id="1_ofu35"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scripts/number_input.gd" id="2_ec3oq"]
 [ext_resource type="Script" path="res://scripts/tab_visual.gd" id="2_epmr2"]
 [ext_resource type="Script" path="res://scripts/error_display.gd" id="3_do4ay"]
+[ext_resource type="FontFile" uid="uid://c71aevsqnyp5b" path="res://fonts/Roboto-Bold.ttf" id="4_hjnrf"]
 [ext_resource type="Script" path="res://scripts/custom/LineEditNumber.gd" id="4_wf20e"]
 [ext_resource type="Script" path="res://scripts/new_game_overlay.gd" id="5_hyyie"]
 [ext_resource type="Script" path="res://scripts/game_menu.gd" id="6_n4khm"]
@@ -80,6 +81,8 @@ size_flags_vertical = 3
 
 [node name="ErrorDispay" type="Label" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Board" node_paths=PackedStringArray("display_timer")]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.996078, 0.352941, 0.215686, 1)
+theme_override_fonts/font = ExtResource("4_hjnrf")
 text = "Error text"
 script = ExtResource("3_do4ay")
 display_timer = NodePath("DisplayTimer")
