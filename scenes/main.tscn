@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://ljk0p53tcj87"]
+[gd_scene load_steps=12 format=3 uid="uid://ljk0p53tcj87"]
 
 [ext_resource type="PackedScene" uid="uid://dqyw230f8v1yw" path="res://scenes/managers/game_manager.tscn" id="1_nm307"]
 [ext_resource type="Script" path="res://scripts/guessing_board.gd" id="1_ofu35"]
@@ -7,10 +7,17 @@
 [ext_resource type="Script" path="res://scripts/error_display.gd" id="3_do4ay"]
 [ext_resource type="Script" path="res://scripts/custom/LineEditNumber.gd" id="4_wf20e"]
 [ext_resource type="Script" path="res://scripts/new_game_overlay.gd" id="5_hyyie"]
+[ext_resource type="Script" path="res://scripts/end_game_display.gd" id="7_0xcqt"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bewck"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b341o"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_odyyt"]
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
 
 [node name="Main" type="Node"]
 
@@ -165,5 +172,103 @@ max_value = 10
 [node name="Button" type="Button" parent="CanvasLayer/NewGameOverlay/VBoxContainer"]
 layout_mode = 2
 text = "Start"
+
+[node name="EndGameDisplay" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("7_0xcqt")
+
+[node name="ColorOverlay" type="ColorRect" parent="CanvasLayer/EndGameDisplay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.188235, 0.188235, 0.188235, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/EndGameDisplay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_right = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/EndGameDisplay/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Victory" type="Label" parent="CanvasLayer/EndGameDisplay/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 18
+text = "VICTORY"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="CanvasLayer/EndGameDisplay/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxFlat_odyyt")
+
+[node name="NumberGuessDisplay" type="HBoxContainer" parent="CanvasLayer/EndGameDisplay/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="NumberGuessText" type="Label" parent="CanvasLayer/EndGameDisplay/MarginContainer/VBoxContainer/NumberGuessDisplay"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Number guess amount:"
+
+[node name="NumberGuessCount" type="Label" parent="CanvasLayer/EndGameDisplay/MarginContainer/VBoxContainer/NumberGuessDisplay"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "1345"
+horizontal_alignment = 2
+
+[node name="PositionGuessDisplay" type="HBoxContainer" parent="CanvasLayer/EndGameDisplay/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PositionGuessText" type="Label" parent="CanvasLayer/EndGameDisplay/MarginContainer/VBoxContainer/PositionGuessDisplay"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Position guess amount:"
+
+[node name="PositionGuessCount" type="Label" parent="CanvasLayer/EndGameDisplay/MarginContainer/VBoxContainer/PositionGuessDisplay"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "1233"
+horizontal_alignment = 2
+
+[node name="TotalGuessdisplay" type="HBoxContainer" parent="CanvasLayer/EndGameDisplay/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TotalGuessText" type="Label" parent="CanvasLayer/EndGameDisplay/MarginContainer/VBoxContainer/TotalGuessdisplay"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Total:"
+
+[node name="TotalGuessAmount" type="Label" parent="CanvasLayer/EndGameDisplay/MarginContainer/VBoxContainer/TotalGuessdisplay"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "123"
+horizontal_alignment = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/EndGameDisplay/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Restart" type="Button" parent="CanvasLayer/EndGameDisplay/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Restart"
+
+[node name="MainMenu" type="Button" parent="CanvasLayer/EndGameDisplay/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Main Menu"
 
 [node name="GameManager" parent="." instance=ExtResource("1_nm307")]
