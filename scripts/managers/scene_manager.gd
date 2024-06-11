@@ -13,6 +13,7 @@ func load_scene(scene: Scenes):
 
     if scene == Scenes.MainMenu:
         GameManager.instance.reset_static();
+        GuessingBoard.instance.reset_static();
 
 func restart_scene():
     get_tree().reload_current_scene();

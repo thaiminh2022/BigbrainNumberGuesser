@@ -12,13 +12,14 @@ func _ready() -> void:
     num_line_edit.text_submitted.connect(func(_t): _submit_number())
 
 func _setup_max_len() -> void:
-    num_line_edit.max_length = GameManager.instance.game_settings.number_length
+    var placeholder := str(GameManager.instance.game_settings.number_length)
+    num_line_edit.placeholder_text = "Number length: " + placeholder;
 
 func _submit_number() -> void:
     var text := num_line_edit.text.strip_edges();
     
-    if text == "/ff":
-        GameManager.instance.surrender();
+    # Check if it's a command and execute it
+    if do_command(text):
         return
 
     var is_valid := _is_valid_text(text);
@@ -26,6 +27,24 @@ func _submit_number() -> void:
     
     if is_valid:
         GameManager.instance.guess_number(number)
+
+func do_command(text: String) -> bool:
+    
+    match text:
+        "/ff":
+            GameManager.instance.surrender();
+            return true;
+
+        "/clear":
+            GuessingBoard.instance.clear_msg();
+            return true;
+
+        "/recall":
+            GuessingBoard.instance.recall_msg();
+            return true;
+
+        _:
+            return false;
 
 func _is_valid_text(text: String) -> bool:
     var num_len := GameManager.instance.game_settings.number_length;

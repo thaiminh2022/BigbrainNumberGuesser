@@ -4,7 +4,6 @@ class_name GameManager extends Node
 @export var number_guessing_state: NumberGuessingState;
 @export var position_guessing_state: PositionGuessingState;
 @export var finalize_state: FinalizeState;
-@export var surrender_state: SurrenderState;
 
 var game_settings: GameSettings = GameSettings.new();
 var game_data: GameData = GameData.new();
@@ -23,7 +22,8 @@ func new_game(number_length: int) -> void:
     switch_state(new_game_state);
 
 func surrender() -> void:
-    switch_state(surrender_state);
+    game_data.is_lost = true;
+    switch_state(finalize_state)
 
 func guess_number(number: int):
     if current_state == number_guessing_state:
@@ -50,6 +50,7 @@ class GameData:
     var number_list: Array[int] = []
     var number_guess_count: int = 0;
     var position_guess_count: int = 0;
-    
+    var is_lost: bool = false;
+
     func get_total_guess() -> int:
         return number_guess_count + position_guess_count

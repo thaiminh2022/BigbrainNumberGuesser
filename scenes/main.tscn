@@ -62,18 +62,18 @@ tabs_visible = false
 script = ExtResource("2_epmr2")
 tab_btns = [NodePath("../TabBtns/Button"), NodePath("../TabBtns/Button2"), NodePath("../TabBtns/Button3")]
 
-[node name="Board" type="VBoxContainer" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer" node_paths=PackedStringArray("display_parent")]
+[node name="Board" type="VBoxContainer" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer" node_paths=PackedStringArray("msg_display")]
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("1_ofu35")
-display_parent = NodePath("ScrollContainer/GuessDisplay")
+msg_display = NodePath("ScrollContainer/MsgDisplay")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Board"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_b341o")
 
-[node name="GuessDisplay" type="VBoxContainer" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Board/ScrollContainer"]
+[node name="MsgDisplay" type="Label" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Board/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -98,13 +98,8 @@ submit_btn = NodePath("SubmitButton")
 error_displayer = NodePath("../ErrorDispay")
 
 [node name="LineEdit" type="LineEdit" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Board/NumberInput"]
-custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 8
-placeholder_text = "Enter a number"
-clear_button_enabled = true
-script = ExtResource("4_wf20e")
 
 [node name="SubmitButton" type="Button" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Board/NumberInput"]
 layout_mode = 2
@@ -239,7 +234,7 @@ max_value = 10
 layout_mode = 2
 text = "Start"
 
-[node name="EndGameDisplay" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("number_guess_amount", "position_guess_amount", "total_guess_amount", "stats_display", "open_stat_btn")]
+[node name="EndGameDisplay" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("number_guess_amount", "position_guess_amount", "total_guess_amount", "end_game_state_display", "stats_display", "open_stat_btn")]
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -253,6 +248,7 @@ script = ExtResource("7_0xcqt")
 number_guess_amount = NodePath("Stats/MarginContainer/VBoxContainer/NumberGuessDisplay/NumberGuessCount")
 position_guess_amount = NodePath("Stats/MarginContainer/VBoxContainer/PositionGuessDisplay/PositionGuessCount")
 total_guess_amount = NodePath("Stats/MarginContainer/VBoxContainer/TotalGuessdisplay/TotalGuessAmount")
+end_game_state_display = NodePath("Stats/MarginContainer/VBoxContainer/EndGameStateText")
 stats_display = NodePath("Stats")
 open_stat_btn = NodePath("ReopenDisplay")
 
@@ -300,11 +296,11 @@ layout_mode = 2
 size_flags_vertical = 4
 theme_override_constants/separation = 20
 
-[node name="Victory" type="Label" parent="CanvasLayer/EndGameDisplay/Stats/MarginContainer/VBoxContainer"]
+[node name="EndGameStateText" type="Label" parent="CanvasLayer/EndGameDisplay/Stats/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 6
 theme_override_fonts/font = ExtResource("8_4ghot")
-text = "VICTORY"
+text = "Lost / Victory"
 horizontal_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="CanvasLayer/EndGameDisplay/Stats/MarginContainer/VBoxContainer"]
