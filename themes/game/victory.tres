@@ -1,0 +1,39 @@
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://ddssu5k0mqv1m"]
+
+[ext_resource type="FontFile" uid="uid://c71aevsqnyp5b" path="res://fonts/Roboto-Bold.ttf" id="1_vthk2"]
+[ext_resource type="StyleBox" uid="uid://bchwf850loagu" path="res://themes/game/btns/btns.tres" id="2_7rwr8"]
+[ext_resource type="StyleBox" uid="uid://bowaggrigornv" path="res://themes/game/btns/btns_selected.tres" id="3_t5ha4"]
+[ext_resource type="FontFile" uid="uid://clybsd1a2ntah" path="res://fonts/Roboto-Regular.ttf" id="4_bppt4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5spm7"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 5.0
+expand_margin_top = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n5si1"]
+
+[resource]
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/font_sizes/font_size = 48
+Button/fonts/font = ExtResource("1_vthk2")
+Button/styles/hover = ExtResource("2_7rwr8")
+Button/styles/normal = ExtResource("2_7rwr8")
+Button/styles/pressed = ExtResource("3_t5ha4")
+Label/font_sizes/font_size = 48
+Label/fonts/font = ExtResource("4_bppt4")
+LineEdit/colors/caret_color = Color(0, 0, 0, 1)
+LineEdit/colors/font_color = Color(0, 0, 0, 1)
+LineEdit/colors/font_placeholder_color = Color(0, 0, 0, 0.356863)
+LineEdit/font_sizes/font_size = 48
+LineEdit/fonts/font = ExtResource("4_bppt4")
+LineEdit/styles/normal = SubResource("StyleBoxFlat_5spm7")
+TextEdit/colors/font_color = Color(1, 1, 1, 1)
+TextEdit/font_sizes/font_size = 64
+TextEdit/fonts/font = ExtResource("4_bppt4")
+TextEdit/styles/normal = SubResource("StyleBoxEmpty_n5si1")

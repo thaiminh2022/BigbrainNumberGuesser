@@ -4,6 +4,7 @@ class_name GameManager extends Node
 @export var number_guessing_state: NumberGuessingState;
 @export var position_guessing_state: PositionGuessingState;
 @export var finalize_state: FinalizeState;
+@export var surrender_state: SurrenderState;
 
 var game_settings: GameSettings = GameSettings.new();
 var game_data: GameData = GameData.new();
@@ -14,12 +15,17 @@ static var instance: GameManager;
 func _enter_tree() -> void:
     instance = self
 
+func reset_static() -> void:
+    instance = null;
+
 func new_game(number_length: int) -> void:
     game_settings.number_length = number_length
     switch_state(new_game_state);
 
+func surrender() -> void:
+    switch_state(surrender_state);
+
 func guess_number(number: int):
-    print("Fix")
     if current_state == number_guessing_state:
         number_guessing_state.guess(number)
         game_data.number_guess_count += 1;

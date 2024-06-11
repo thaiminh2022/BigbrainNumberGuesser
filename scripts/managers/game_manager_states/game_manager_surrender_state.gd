@@ -1,0 +1,1 @@
+class_name SurrenderState extends GameManagerDefaultState

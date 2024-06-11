@@ -1,85 +1,103 @@
-[gd_scene load_steps=12 format=3 uid="uid://ljk0p53tcj87"]
+[gd_scene load_steps=18 format=3 uid="uid://ljk0p53tcj87"]
 
 [ext_resource type="PackedScene" uid="uid://dqyw230f8v1yw" path="res://scenes/managers/game_manager.tscn" id="1_nm307"]
 [ext_resource type="Script" path="res://scripts/guessing_board.gd" id="1_ofu35"]
+[ext_resource type="Theme" uid="uid://cmx5vliid5s4d" path="res://themes/game/main_interaction.tres" id="1_sb2wf"]
 [ext_resource type="Script" path="res://scripts/number_input.gd" id="2_ec3oq"]
 [ext_resource type="Script" path="res://scripts/tab_visual.gd" id="2_epmr2"]
 [ext_resource type="Script" path="res://scripts/error_display.gd" id="3_do4ay"]
 [ext_resource type="Script" path="res://scripts/custom/LineEditNumber.gd" id="4_wf20e"]
 [ext_resource type="Script" path="res://scripts/new_game_overlay.gd" id="5_hyyie"]
+[ext_resource type="Script" path="res://scripts/game_menu.gd" id="6_n4khm"]
 [ext_resource type="Script" path="res://scripts/end_game_display.gd" id="7_0xcqt"]
+[ext_resource type="Theme" uid="uid://dcm6dx6g0jxks" path="res://themes/game/game.tres" id="7_8y1ee"]
+[ext_resource type="FontFile" uid="uid://blddg88k78gyd" path="res://fonts/Roboto-Black.ttf" id="8_4ghot"]
+[ext_resource type="Script" path="res://scripts/note_box.gd" id="9_vpyvs"]
+[ext_resource type="Theme" uid="uid://ddssu5k0mqv1m" path="res://themes/game/victory.tres" id="12_xpfla"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bewck"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b341o"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_odyyt"]
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
 
 [node name="Main" type="Node"]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0431373, 0.0901961, 0.278431, 1)
+
+[node name="MainInteraction" type="MarginContainer" parent="CanvasLayer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 3
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_right = 5
+theme = ExtResource("1_sb2wf")
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MainInteraction"]
 layout_mode = 2
+theme_override_constants/separation = 30
 
-[node name="TabContainer" type="TabContainer" parent="CanvasLayer/MarginContainer/VBoxContainer" node_paths=PackedStringArray("tab_btns")]
+[node name="TabContainer" type="TabContainer" parent="CanvasLayer/MainInteraction/VBoxContainer" node_paths=PackedStringArray("tab_btns")]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_bewck")
 clip_tabs = false
 tabs_visible = false
 script = ExtResource("2_epmr2")
-tab_btns = [NodePath("../TabBtns/Button"), NodePath("../TabBtns/Button2")]
+tab_btns = [NodePath("../TabBtns/Button"), NodePath("../TabBtns/Button2"), NodePath("../TabBtns/Button3")]
 
-[node name="GuessingBoard" type="VBoxContainer" parent="CanvasLayer/MarginContainer/VBoxContainer/TabContainer" node_paths=PackedStringArray("display_parent")]
+[node name="Board" type="VBoxContainer" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer" node_paths=PackedStringArray("display_parent")]
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("1_ofu35")
 display_parent = NodePath("ScrollContainer/GuessDisplay")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/MarginContainer/VBoxContainer/TabContainer/GuessingBoard"]
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Board"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_b341o")
 
-[node name="GuessDisplay" type="VBoxContainer" parent="CanvasLayer/MarginContainer/VBoxContainer/TabContainer/GuessingBoard/ScrollContainer"]
+[node name="GuessDisplay" type="VBoxContainer" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Board/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="ErrorDispay" type="Label" parent="CanvasLayer/MarginContainer/VBoxContainer/TabContainer/GuessingBoard" node_paths=PackedStringArray("display_timer")]
+[node name="ErrorDispay" type="Label" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Board" node_paths=PackedStringArray("display_timer")]
 layout_mode = 2
 text = "Error text"
 script = ExtResource("3_do4ay")
 display_timer = NodePath("DisplayTimer")
 
-[node name="DisplayTimer" type="Timer" parent="CanvasLayer/MarginContainer/VBoxContainer/TabContainer/GuessingBoard/ErrorDispay"]
+[node name="DisplayTimer" type="Timer" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Board/ErrorDispay"]
 wait_time = 3.0
 one_shot = true
 
-[node name="NumberInput" type="HBoxContainer" parent="CanvasLayer/MarginContainer/VBoxContainer/TabContainer/GuessingBoard" node_paths=PackedStringArray("num_line_edit", "submit_btn", "error_displayer")]
+[node name="NumberInput" type="HBoxContainer" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Board" node_paths=PackedStringArray("num_line_edit", "submit_btn", "error_displayer")]
 layout_mode = 2
 size_flags_vertical = 8
+theme_override_constants/separation = 30
 script = ExtResource("2_ec3oq")
-num_line_edit = NodePath("LineEditNumber")
+num_line_edit = NodePath("LineEdit")
 submit_btn = NodePath("SubmitButton")
 error_displayer = NodePath("../ErrorDispay")
 
-[node name="LineEditNumber" type="LineEdit" parent="CanvasLayer/MarginContainer/VBoxContainer/TabContainer/GuessingBoard/NumberInput"]
+[node name="LineEdit" type="LineEdit" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Board/NumberInput"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -88,37 +106,81 @@ placeholder_text = "Enter a number"
 clear_button_enabled = true
 script = ExtResource("4_wf20e")
 
-[node name="SubmitButton" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/TabContainer/GuessingBoard/NumberInput"]
+[node name="SubmitButton" type="Button" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Board/NumberInput"]
 layout_mode = 2
 text = "Submit"
 
-[node name="Notebox" type="Control" parent="CanvasLayer/MarginContainer/VBoxContainer/TabContainer"]
+[node name="Menu" type="Control" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer" node_paths=PackedStringArray("restart_btn", "main_menu_btn")]
 visible = false
 layout_mode = 2
+script = ExtResource("6_n4khm")
+restart_btn = NodePath("VBoxContainer/Restart")
+main_menu_btn = NodePath("VBoxContainer/Menu")
 
-[node name="TextEdit" type="TextEdit" parent="CanvasLayer/MarginContainer/VBoxContainer/TabContainer/Notebox"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Menu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 50
+
+[node name="Label" type="Label" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Menu/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_4ghot")
+text = "Menu"
+horizontal_alignment = 1
+
+[node name="Restart" type="Button" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Menu/VBoxContainer"]
+layout_mode = 2
+text = "Restart"
+
+[node name="Menu" type="Button" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Menu/VBoxContainer"]
+layout_mode = 2
+text = "Main Menu"
+
+[node name="Notebox" type="Control" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer" node_paths=PackedStringArray("text_edit")]
+visible = false
+layout_mode = 2
+script = ExtResource("9_vpyvs")
+text_edit = NodePath("TextEdit")
+
+[node name="TextEdit" type="TextEdit" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Notebox"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Xin chào"
+placeholder_text = "Input some notes"
+scroll_smooth = true
 metadata/_edit_use_anchors_ = true
 
-[node name="TabBtns" type="HBoxContainer" parent="CanvasLayer/MarginContainer/VBoxContainer"]
+[node name="TabBtns" type="HBoxContainer" parent="CanvasLayer/MainInteraction/VBoxContainer"]
 layout_mode = 2
+theme_override_constants/separation = 25
 alignment = 1
 
-[node name="Button" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/TabBtns"]
+[node name="Button" type="Button" parent="CanvasLayer/MainInteraction/VBoxContainer/TabBtns"]
 layout_mode = 2
 size_flags_horizontal = 3
+toggle_mode = true
 text = "Page 1"
 
-[node name="Button2" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/TabBtns"]
+[node name="Button2" type="Button" parent="CanvasLayer/MainInteraction/VBoxContainer/TabBtns"]
 layout_mode = 2
 size_flags_horizontal = 3
+toggle_mode = true
 text = "Page 2"
+
+[node name="Button3" type="Button" parent="CanvasLayer/MainInteraction/VBoxContainer/TabBtns"]
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+text = "Page 1"
 
 [node name="NewGameOverlay" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("number_line_edit", "submit_btn")]
 visible = false
@@ -128,6 +190,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("7_8y1ee")
 script = ExtResource("5_hyyie")
 number_line_edit = NodePath("VBoxContainer/LineEditNumber")
 submit_btn = NodePath("VBoxContainer/Button")
@@ -154,6 +217,7 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 20
 
 [node name="Label" type="Label" parent="CanvasLayer/NewGameOverlay/VBoxContainer"]
 layout_mode = 2
@@ -163,8 +227,10 @@ text = "Choose number length"
 layout_mode = 2
 tooltip_text = "gay loord
 "
-placeholder_text = "3"
+placeholder_text = "1 to 10"
+alignment = 1
 max_length = 2
+clear_button_enabled = true
 script = ExtResource("4_wf20e")
 min_value = 1
 max_value = 10
@@ -173,16 +239,44 @@ max_value = 10
 layout_mode = 2
 text = "Start"
 
-[node name="EndGameDisplay" type="Control" parent="CanvasLayer"]
+[node name="EndGameDisplay" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("number_guess_amount", "position_guess_amount", "total_guess_amount", "stats_display", "open_stat_btn")]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("12_xpfla")
 script = ExtResource("7_0xcqt")
+number_guess_amount = NodePath("Stats/MarginContainer/VBoxContainer/NumberGuessDisplay/NumberGuessCount")
+position_guess_amount = NodePath("Stats/MarginContainer/VBoxContainer/PositionGuessDisplay/PositionGuessCount")
+total_guess_amount = NodePath("Stats/MarginContainer/VBoxContainer/TotalGuessdisplay/TotalGuessAmount")
+stats_display = NodePath("Stats")
+open_stat_btn = NodePath("ReopenDisplay")
 
-[node name="ColorOverlay" type="ColorRect" parent="CanvasLayer/EndGameDisplay"]
+[node name="ReopenDisplay" type="Button" parent="CanvasLayer/EndGameDisplay"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -4.0
+offset_right = 4.0
+offset_bottom = 8.0
+grow_horizontal = 2
+text = "Reopen display"
+
+[node name="Stats" type="Button" parent="CanvasLayer/EndGameDisplay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+
+[node name="ColorOverlay" type="ColorRect" parent="CanvasLayer/EndGameDisplay/Stats"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -191,84 +285,82 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.188235, 0.188235, 0.188235, 1)
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/EndGameDisplay"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/EndGameDisplay/Stats"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_right = 5
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/EndGameDisplay/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/EndGameDisplay/Stats/MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 4
+theme_override_constants/separation = 20
 
-[node name="Victory" type="Label" parent="CanvasLayer/EndGameDisplay/MarginContainer/VBoxContainer"]
+[node name="Victory" type="Label" parent="CanvasLayer/EndGameDisplay/Stats/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 6
-theme_override_font_sizes/font_size = 18
+theme_override_fonts/font = ExtResource("8_4ghot")
 text = "VICTORY"
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="CanvasLayer/EndGameDisplay/MarginContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="CanvasLayer/EndGameDisplay/Stats/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxFlat_odyyt")
 
-[node name="NumberGuessDisplay" type="HBoxContainer" parent="CanvasLayer/EndGameDisplay/MarginContainer/VBoxContainer"]
+[node name="NumberGuessDisplay" type="HBoxContainer" parent="CanvasLayer/EndGameDisplay/Stats/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="NumberGuessText" type="Label" parent="CanvasLayer/EndGameDisplay/MarginContainer/VBoxContainer/NumberGuessDisplay"]
+[node name="NumberGuessText" type="Label" parent="CanvasLayer/EndGameDisplay/Stats/MarginContainer/VBoxContainer/NumberGuessDisplay"]
 layout_mode = 2
 size_flags_horizontal = 0
 text = "Number guess amount:"
 
-[node name="NumberGuessCount" type="Label" parent="CanvasLayer/EndGameDisplay/MarginContainer/VBoxContainer/NumberGuessDisplay"]
+[node name="NumberGuessCount" type="Label" parent="CanvasLayer/EndGameDisplay/Stats/MarginContainer/VBoxContainer/NumberGuessDisplay"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "1345"
 horizontal_alignment = 2
 
-[node name="PositionGuessDisplay" type="HBoxContainer" parent="CanvasLayer/EndGameDisplay/MarginContainer/VBoxContainer"]
+[node name="PositionGuessDisplay" type="HBoxContainer" parent="CanvasLayer/EndGameDisplay/Stats/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="PositionGuessText" type="Label" parent="CanvasLayer/EndGameDisplay/MarginContainer/VBoxContainer/PositionGuessDisplay"]
+[node name="PositionGuessText" type="Label" parent="CanvasLayer/EndGameDisplay/Stats/MarginContainer/VBoxContainer/PositionGuessDisplay"]
 layout_mode = 2
 size_flags_horizontal = 0
 text = "Position guess amount:"
 
-[node name="PositionGuessCount" type="Label" parent="CanvasLayer/EndGameDisplay/MarginContainer/VBoxContainer/PositionGuessDisplay"]
+[node name="PositionGuessCount" type="Label" parent="CanvasLayer/EndGameDisplay/Stats/MarginContainer/VBoxContainer/PositionGuessDisplay"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "1233"
 horizontal_alignment = 2
 
-[node name="TotalGuessdisplay" type="HBoxContainer" parent="CanvasLayer/EndGameDisplay/MarginContainer/VBoxContainer"]
+[node name="TotalGuessdisplay" type="HBoxContainer" parent="CanvasLayer/EndGameDisplay/Stats/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="TotalGuessText" type="Label" parent="CanvasLayer/EndGameDisplay/MarginContainer/VBoxContainer/TotalGuessdisplay"]
+[node name="TotalGuessText" type="Label" parent="CanvasLayer/EndGameDisplay/Stats/MarginContainer/VBoxContainer/TotalGuessdisplay"]
 layout_mode = 2
 size_flags_horizontal = 0
 text = "Total:"
 
-[node name="TotalGuessAmount" type="Label" parent="CanvasLayer/EndGameDisplay/MarginContainer/VBoxContainer/TotalGuessdisplay"]
+[node name="TotalGuessAmount" type="Label" parent="CanvasLayer/EndGameDisplay/Stats/MarginContainer/VBoxContainer/TotalGuessdisplay"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "123"
 horizontal_alignment = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/EndGameDisplay/MarginContainer/VBoxContainer"]
+[node name="HSeparator2" type="HSeparator" parent="CanvasLayer/EndGameDisplay/Stats/MarginContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_constants/separation = 5
+theme_override_styles/separator = SubResource("StyleBoxFlat_odyyt")
 
-[node name="Restart" type="Button" parent="CanvasLayer/EndGameDisplay/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/EndGameDisplay/Stats/MarginContainer/VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 3
-text = "Restart"
-
-[node name="MainMenu" type="Button" parent="CanvasLayer/EndGameDisplay/MarginContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Main Menu"
+text = "Click any where to close"
+horizontal_alignment = 1
 
 [node name="GameManager" parent="." instance=ExtResource("1_nm307")]
