@@ -1,10 +1,20 @@
-class_name GameManagerPositionGuessingState extends GameManagerDefaultState
+class_name PositionGuessingState extends GameManagerDefaultState
 
-static var instance:GameManagerPositionGuessingState;
+static var instance:PositionGuessingState;
 
+signal on_guess_position;
 
 func guess(number:int):
-    pass
+    if !is_current_self():
+        return;
+
+    var correct_amount = _guess_position(number)
+    
+    on_guess_position.emit(correct_amount, number)
+    
+    if correct_amount == game_manager.instance.game_settings.number_length:
+        game_manager.switch_state(game_manager.finalize_state)
+
 
 func _guess_position(number: int) -> int:
     var number_list:= game_manager.game_data.number_list;
@@ -19,7 +29,7 @@ func _guess_position(number: int) -> int:
             correct_count+=1;
 
 
-    
+
     return correct_count
 
-    
+

@@ -1,13 +1,20 @@
-[gd_scene load_steps=4 format=3 uid="uid://ljk0p53tcj87"]
+[gd_scene load_steps=10 format=3 uid="uid://ljk0p53tcj87"]
 
 [ext_resource type="PackedScene" uid="uid://dqyw230f8v1yw" path="res://scenes/managers/game_manager.tscn" id="1_nm307"]
-[ext_resource type="Script" path="res://scripts/visual_hooker.gd" id="1_ofu35"]
+[ext_resource type="Script" path="res://scripts/guessing_board.gd" id="1_ofu35"]
 [ext_resource type="Script" path="res://scripts/number_input.gd" id="2_ec3oq"]
+[ext_resource type="Script" path="res://scripts/tab_visual.gd" id="2_epmr2"]
+[ext_resource type="Script" path="res://scripts/error_display.gd" id="3_do4ay"]
+[ext_resource type="Script" path="res://scripts/custom/LineEditNumber.gd" id="4_wf20e"]
+[ext_resource type="Script" path="res://scripts/new_game_overlay.gd" id="5_hyyie"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bewck"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b341o"]
 
 [node name="Main" type="Node"]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-script = ExtResource("1_ofu35")
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
 anchors_preset = 15
@@ -16,32 +23,147 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_right = 5
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer"]
 layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/MarginContainer/VBoxContainer"]
+[node name="TabContainer" type="TabContainer" parent="CanvasLayer/MarginContainer/VBoxContainer" node_paths=PackedStringArray("tab_btns")]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_bewck")
+clip_tabs = false
+tabs_visible = false
+script = ExtResource("2_epmr2")
+tab_btns = [NodePath("../TabBtns/Button"), NodePath("../TabBtns/Button2")]
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/VBoxContainer/ScrollContainer"]
+[node name="GuessingBoard" type="VBoxContainer" parent="CanvasLayer/MarginContainer/VBoxContainer/TabContainer" node_paths=PackedStringArray("display_parent")]
 layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("1_ofu35")
+display_parent = NodePath("ScrollContainer/GuessDisplay")
 
-[node name="NumberInput" type="HBoxContainer" parent="CanvasLayer/MarginContainer/VBoxContainer" node_paths=PackedStringArray("num_line_edit", "submit_btn")]
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/MarginContainer/VBoxContainer/TabContainer/GuessingBoard"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_b341o")
+
+[node name="GuessDisplay" type="VBoxContainer" parent="CanvasLayer/MarginContainer/VBoxContainer/TabContainer/GuessingBoard/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ErrorDispay" type="Label" parent="CanvasLayer/MarginContainer/VBoxContainer/TabContainer/GuessingBoard" node_paths=PackedStringArray("display_timer")]
+layout_mode = 2
+text = "Error text"
+script = ExtResource("3_do4ay")
+display_timer = NodePath("DisplayTimer")
+
+[node name="DisplayTimer" type="Timer" parent="CanvasLayer/MarginContainer/VBoxContainer/TabContainer/GuessingBoard/ErrorDispay"]
+wait_time = 3.0
+one_shot = true
+
+[node name="NumberInput" type="HBoxContainer" parent="CanvasLayer/MarginContainer/VBoxContainer/TabContainer/GuessingBoard" node_paths=PackedStringArray("num_line_edit", "submit_btn", "error_displayer")]
 layout_mode = 2
 size_flags_vertical = 8
 script = ExtResource("2_ec3oq")
-num_line_edit = NodePath("LineEdit")
-submit_btn = NodePath("Button")
+num_line_edit = NodePath("LineEditNumber")
+submit_btn = NodePath("SubmitButton")
+error_displayer = NodePath("../ErrorDispay")
 
-[node name="LineEdit" type="LineEdit" parent="CanvasLayer/MarginContainer/VBoxContainer/NumberInput"]
+[node name="LineEditNumber" type="LineEdit" parent="CanvasLayer/MarginContainer/VBoxContainer/TabContainer/GuessingBoard/NumberInput"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
+placeholder_text = "Enter a number"
+clear_button_enabled = true
+script = ExtResource("4_wf20e")
 
-[node name="Button" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/NumberInput"]
+[node name="SubmitButton" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/TabContainer/GuessingBoard/NumberInput"]
 layout_mode = 2
 text = "Submit"
+
+[node name="Notebox" type="Control" parent="CanvasLayer/MarginContainer/VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="TextEdit" type="TextEdit" parent="CanvasLayer/MarginContainer/VBoxContainer/TabContainer/Notebox"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Xin chào"
+metadata/_edit_use_anchors_ = true
+
+[node name="TabBtns" type="HBoxContainer" parent="CanvasLayer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Button" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/TabBtns"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Page 1"
+
+[node name="Button2" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/TabBtns"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Page 2"
+
+[node name="NewGameOverlay" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("number_line_edit", "submit_btn")]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_hyyie")
+number_line_edit = NodePath("VBoxContainer/LineEditNumber")
+submit_btn = NodePath("VBoxContainer/Button")
+
+[node name="ColorOverlay" type="ColorRect" parent="CanvasLayer/NewGameOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.188235, 0.188235, 0.188235, 0.454902)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/NewGameOverlay"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/NewGameOverlay/VBoxContainer"]
+layout_mode = 2
+text = "Choose number length"
+
+[node name="LineEditNumber" type="LineEdit" parent="CanvasLayer/NewGameOverlay/VBoxContainer"]
+layout_mode = 2
+tooltip_text = "gay loord
+"
+placeholder_text = "3"
+max_length = 2
+script = ExtResource("4_wf20e")
+min_value = 1
+max_value = 10
+
+[node name="Button" type="Button" parent="CanvasLayer/NewGameOverlay/VBoxContainer"]
+layout_mode = 2
+text = "Start"
 
 [node name="GameManager" parent="." instance=ExtResource("1_nm307")]
