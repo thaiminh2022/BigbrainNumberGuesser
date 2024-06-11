@@ -170,7 +170,7 @@ text = "Page 1"
 
 [node name="Button2" type="Button" parent="CanvasLayer/MainInteraction/VBoxContainer/TabBtns"]
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 4
 toggle_mode = true
 text = "Page 2"
 
@@ -190,8 +190,8 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("7_8y1ee")
 script = ExtResource("5_hyyie")
-number_line_edit = NodePath("VBoxContainer/LineEditNumber")
-submit_btn = NodePath("VBoxContainer/Button")
+number_line_edit = NodePath("MarginContainer/Content/Number Len input/LineEditNumber")
+submit_btn = NodePath("MarginContainer/Content/Number Len input/Button")
 
 [node name="ColorOverlay" type="ColorRect" parent="CanvasLayer/NewGameOverlay"]
 layout_mode = 1
@@ -200,29 +200,38 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.188235, 0.188235, 0.188235, 0.454902)
+color = Color(0.0431373, 0.0901961, 0.278431, 1)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/NewGameOverlay"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/NewGameOverlay"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="Content" type="VBoxContainer" parent="CanvasLayer/NewGameOverlay/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="Number Len input" type="VBoxContainer" parent="CanvasLayer/NewGameOverlay/MarginContainer/Content"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
 theme_override_constants/separation = 20
 
-[node name="Label" type="Label" parent="CanvasLayer/NewGameOverlay/VBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/NewGameOverlay/MarginContainer/Content/Number Len input"]
 layout_mode = 2
+size_flags_vertical = 6
 text = "Choose number length"
 
-[node name="LineEditNumber" type="LineEdit" parent="CanvasLayer/NewGameOverlay/VBoxContainer"]
+[node name="LineEditNumber" type="LineEdit" parent="CanvasLayer/NewGameOverlay/MarginContainer/Content/Number Len input"]
 layout_mode = 2
+size_flags_vertical = 6
 tooltip_text = "gay loord
 "
 placeholder_text = "1 to 10"
@@ -233,9 +242,32 @@ script = ExtResource("4_wf20e")
 min_value = 1
 max_value = 10
 
-[node name="Button" type="Button" parent="CanvasLayer/NewGameOverlay/VBoxContainer"]
+[node name="Button" type="Button" parent="CanvasLayer/NewGameOverlay/MarginContainer/Content/Number Len input"]
 layout_mode = 2
+size_flags_vertical = 6
 text = "Start"
+
+[node name="Tutorial" type="VBoxContainer" parent="CanvasLayer/NewGameOverlay/MarginContainer/Content"]
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_constants/separation = 30
+
+[node name="Label" type="Label" parent="CanvasLayer/NewGameOverlay/MarginContainer/Content/Tutorial"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Tutorial"
+
+[node name="Label2" type="Label" parent="CanvasLayer/NewGameOverlay/MarginContainer/Content/Tutorial"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "1. Choose the length of number to generate
+2. Guess the the digit
+3. Guess the position
+4. Commands
+/ff: surender
+/clear: clear guesses
+/recall: recall guesses"
+autowrap_mode = 2
 
 [node name="EndGameDisplay" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("number_guess_amount", "position_guess_amount", "total_guess_amount", "end_game_state_display", "stats_display", "open_stat_btn")]
 visible = false
@@ -264,7 +296,7 @@ offset_left = -4.0
 offset_right = 4.0
 offset_bottom = 8.0
 grow_horizontal = 2
-text = "Reopen display"
+text = "Result"
 
 [node name="Stats" type="Button" parent="CanvasLayer/EndGameDisplay"]
 layout_mode = 1
