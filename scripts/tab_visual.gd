@@ -26,3 +26,7 @@ func tab_btns_pressed(index: int) -> void:
             tab_btns[i].set_pressed_no_signal(true);
         else:
             tab_btns[i].set_pressed_no_signal(false);
+
+func _input(_event: InputEvent) -> void:
+    if Input.is_action_just_pressed("pause_game"):
+        tab_btns_pressed(MENU_INDEX);
