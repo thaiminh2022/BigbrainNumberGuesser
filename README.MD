@@ -1,6 +1,8 @@
 # Big Brain Number Guessing
 
-This is a small game project that try its best to copy a game we play in class
+- This is a small game project that try its best to copy a game we play in class
+- Game link on itch.io: https://thaiminh2022.itch.io/big-brain-number-guesser
+- Supports for mobile on the web are still very limited
 
 ## Description - Disclaimer
 - The game is supposed to be play by 2 players / teams
