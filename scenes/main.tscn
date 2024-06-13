@@ -36,7 +36,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.0431373, 0.0901961, 0.278431, 1)
+color = Color(0.121569, 0.113725, 0.180392, 1)
 
 [node name="MainInteraction" type="MarginContainer" parent="CanvasLayer"]
 anchors_preset = 15
@@ -67,21 +67,29 @@ tab_btns = [NodePath("../TabBtns/Button"), NodePath("../TabBtns/Button2"), NodeP
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("1_ofu35")
-msg_display = NodePath("ScrollContainer/MsgDisplay")
+msg_display = NodePath("ScrollContainer/MarginContainer/MsgDisplay")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Board"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_b341o")
 
-[node name="MsgDisplay" type="Label" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Board/ScrollContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Board/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 30
+
+[node name="MsgDisplay" type="Label" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Board/ScrollContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ErrorDispay" type="Label" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Board" node_paths=PackedStringArray("display_timer")]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.996078, 0.352941, 0.215686, 1)
+theme_override_colors/font_color = Color(0.921569, 0.435294, 0.572549, 1)
 theme_override_fonts/font = ExtResource("4_hjnrf")
 text = "Error text"
 script = ExtResource("3_do4ay")
@@ -103,9 +111,11 @@ error_displayer = NodePath("../ErrorDispay")
 [node name="LineEdit" type="LineEdit" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Board/NumberInput"]
 layout_mode = 2
 size_flags_horizontal = 3
+tooltip_text = "Enter a number with the selected length"
 
 [node name="SubmitButton" type="Button" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Board/NumberInput"]
 layout_mode = 2
+tooltip_text = "Submit the answer"
 text = "Submit"
 
 [node name="Menu" type="Control" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer" node_paths=PackedStringArray("restart_btn", "main_menu_btn")]
@@ -200,7 +210,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.0431373, 0.0901961, 0.278431, 1)
+color = Color(0.121569, 0.113725, 0.180392, 1)
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/NewGameOverlay"]
 layout_mode = 1
@@ -232,8 +242,7 @@ text = "Choose number length"
 [node name="LineEditNumber" type="LineEdit" parent="CanvasLayer/NewGameOverlay/MarginContainer/Content/Number Len input"]
 layout_mode = 2
 size_flags_vertical = 6
-tooltip_text = "gay loord
-"
+tooltip_text = "A number from 1 to 10"
 placeholder_text = "1 to 10"
 alignment = 1
 max_length = 2
@@ -245,6 +254,7 @@ max_value = 10
 [node name="Button" type="Button" parent="CanvasLayer/NewGameOverlay/MarginContainer/Content/Number Len input"]
 layout_mode = 2
 size_flags_vertical = 6
+tooltip_text = "Start the game"
 text = "Start"
 
 [node name="Tutorial" type="VBoxContainer" parent="CanvasLayer/NewGameOverlay/MarginContainer/Content"]
@@ -314,7 +324,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.188235, 0.188235, 0.188235, 1)
+color = Color(0.14902, 0.137255, 0.227451, 1)
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/EndGameDisplay/Stats"]
 layout_mode = 1
@@ -323,8 +333,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_right = 10
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_right = 30
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/EndGameDisplay/Stats/MarginContainer"]
 layout_mode = 2
@@ -334,6 +344,7 @@ theme_override_constants/separation = 20
 [node name="EndGameStateText" type="Label" parent="CanvasLayer/EndGameDisplay/Stats/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 6
+theme_override_colors/font_color = Color(0.921569, 0.737255, 0.729412, 1)
 theme_override_fonts/font = ExtResource("8_4ghot")
 text = "Lost / Victory"
 horizontal_alignment = 1
@@ -353,6 +364,9 @@ text = "Number guess amount:"
 [node name="NumberGuessCount" type="Label" parent="CanvasLayer/EndGameDisplay/Stats/MarginContainer/VBoxContainer/NumberGuessDisplay"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.768627, 0.654902, 0.905882, 1)
+theme_override_colors/font_outline_color = Color(0.768627, 0.654902, 0.905882, 1)
+theme_override_constants/outline_size = 5
 text = "1345"
 horizontal_alignment = 2
 
@@ -367,6 +381,9 @@ text = "Position guess amount:"
 [node name="PositionGuessCount" type="Label" parent="CanvasLayer/EndGameDisplay/Stats/MarginContainer/VBoxContainer/PositionGuessDisplay"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.768627, 0.654902, 0.905882, 1)
+theme_override_colors/font_outline_color = Color(0.768627, 0.654902, 0.905882, 1)
+theme_override_constants/outline_size = 5
 text = "1233"
 horizontal_alignment = 2
 
@@ -381,6 +398,9 @@ text = "Total:"
 [node name="TotalGuessAmount" type="Label" parent="CanvasLayer/EndGameDisplay/Stats/MarginContainer/VBoxContainer/TotalGuessdisplay"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.768627, 0.654902, 0.905882, 1)
+theme_override_colors/font_outline_color = Color(0.768627, 0.654902, 0.905882, 1)
+theme_override_constants/outline_size = 5
 text = "123"
 horizontal_alignment = 2
 
@@ -391,6 +411,7 @@ theme_override_styles/separator = SubResource("StyleBoxFlat_odyyt")
 
 [node name="Label" type="Label" parent="CanvasLayer/EndGameDisplay/Stats/MarginContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.321569, 0.309804, 0.403922, 1)
 text = "Click any where to close"
 horizontal_alignment = 1
 
