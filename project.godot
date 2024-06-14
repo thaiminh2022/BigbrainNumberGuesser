@@ -32,6 +32,10 @@ window/stretch/aspect="expand"
 window/handheld/orientation=1
 window/vsync/vsync_mode=2
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/onscreenkeyboard/plugin.cfg")
+
 [input]
 
 pause_game={

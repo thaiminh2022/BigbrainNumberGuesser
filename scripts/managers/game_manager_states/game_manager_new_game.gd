@@ -1,6 +1,6 @@
 class_name NewGameState extends GameManagerDefaultState
 
-signal on_finish_new_game_setup;
+signal on_finish_new_game_setup
 func _start():
     var number_list = generate_number_list(game_manager.game_settings.number_length)
     print(number_list)
@@ -10,10 +10,10 @@ func _start():
     game_manager.switch_state(game_manager.number_guessing_state)
 
 func generate_number_list(amount: int) -> Array[int]:
-    var available_numbers := [1, 2, 3, 4, 5, 6,7 ,8, 9, 0]
+    var available_numbers := [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
     var end_index = 9;
     
-    var number_list : Array[int] = [];
+    var number_list: Array[int] = [];
     for i in range(amount):
         var selected_index = -1;
         if i == 0:
@@ -26,6 +26,3 @@ func generate_number_list(amount: int) -> Array[int]:
         end_index -= 1;
         
     return number_list;
-        
-        
-    

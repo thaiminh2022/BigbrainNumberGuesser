@@ -10,8 +10,9 @@ func _ready() -> void:
     number_line_edit.focus_entered.connect(on_focus_enter)
     
 func start_new_game() -> void:
+    
     var number_len := number_line_edit.get_value();
-    if number_len <= 0:
+    if number_len <= 0 or number_len > 10:
         return ;
 
     GameManager.instance.new_game(number_len);

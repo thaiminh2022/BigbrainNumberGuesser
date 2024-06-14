@@ -1,0 +1,44 @@
+[gd_resource type="Theme" load_steps=10 format=3 uid="uid://qvn2tuvwkpwq"]
+
+[ext_resource type="FontFile" uid="uid://blddg88k78gyd" path="res://fonts/Roboto-Black.ttf" id="1_dpsfu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b587o"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f3vbb"]
+bg_color = Color(0.219907, 0.504852, 0.6201, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wo34p"]
+bg_color = Color(0.192157, 0.454902, 0.560784, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p0v2d"]
+bg_color = Color(0.611765, 0.811765, 0.847059, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0lann"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ajt0e"]
+bg_color = Color(0.192157, 0.454902, 0.560784, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_748rr"]
+bg_color = Color(0.192157, 0.454902, 0.560784, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0.192157, 0.454902, 0.560784, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qutqg"]
+bg_color = Color(0.14902, 0.137255, 0.227451, 1)
+
+[resource]
+Button/styles/disabled = SubResource("StyleBoxEmpty_b587o")
+Button/styles/hover = SubResource("StyleBoxFlat_f3vbb")
+Button/styles/normal = SubResource("StyleBoxFlat_wo34p")
+Button/styles/pressed = SubResource("StyleBoxFlat_p0v2d")
+TabContainer/font_sizes/font_size = 32
+TabContainer/fonts/font = ExtResource("1_dpsfu")
+TabContainer/styles/tab_focus = SubResource("StyleBoxEmpty_0lann")
+TabContainer/styles/tab_hovered = SubResource("StyleBoxFlat_ajt0e")
+TabContainer/styles/tab_selected = SubResource("StyleBoxFlat_748rr")
+TabContainer/styles/tab_unselected = SubResource("StyleBoxFlat_qutqg")

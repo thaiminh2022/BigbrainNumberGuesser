@@ -5,6 +5,7 @@ class_name LineEditNumber extends LineEdit
 
 func _ready() -> void:
     text_changed.connect(_on_text_changed)
+    grab_focus()
     
 func _on_text_changed(new_text:String) -> void:
     if new_text.strip_edges().is_empty():

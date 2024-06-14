@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://ljk0p53tcj87"]
+[gd_scene load_steps=24 format=3 uid="uid://ljk0p53tcj87"]
 
 [ext_resource type="PackedScene" uid="uid://dqyw230f8v1yw" path="res://scenes/managers/game_manager.tscn" id="1_nm307"]
 [ext_resource type="Script" path="res://scripts/guessing_board.gd" id="1_ofu35"]
@@ -11,9 +11,14 @@
 [ext_resource type="Script" path="res://scripts/new_game_overlay.gd" id="5_hyyie"]
 [ext_resource type="Script" path="res://scripts/game_menu.gd" id="6_n4khm"]
 [ext_resource type="Script" path="res://scripts/end_game_display.gd" id="7_0xcqt"]
+[ext_resource type="Script" path="res://addons/onscreenkeyboard/onscreen_keyboard.gd" id="7_2j2em"]
 [ext_resource type="Theme" uid="uid://dcm6dx6g0jxks" path="res://themes/game/game.tres" id="7_8y1ee"]
+[ext_resource type="Script" path="res://scripts/line_edit_hook.gd" id="7_dqcqt"]
 [ext_resource type="FontFile" uid="uid://blddg88k78gyd" path="res://fonts/Roboto-Black.ttf" id="8_4ghot"]
-[ext_resource type="Script" path="res://scripts/note_box.gd" id="9_vpyvs"]
+[ext_resource type="Theme" uid="uid://qvn2tuvwkpwq" path="res://themes/keyboard/keyboard.tres" id="8_pays2"]
+[ext_resource type="FontFile" uid="uid://clybsd1a2ntah" path="res://fonts/Roboto-Regular.ttf" id="8_ppemw"]
+[ext_resource type="Script" path="res://scripts/keyboard.gd" id="9_tcuso"]
+[ext_resource type="Script" path="res://scripts/action_btn.gd" id="12_25sm0"]
 [ext_resource type="Theme" uid="uid://ddssu5k0mqv1m" path="res://themes/game/victory.tres" id="12_xpfla"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bewck"]
@@ -38,6 +43,19 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.121569, 0.113725, 0.180392, 1)
 
+[node name="bg_word" type="Label" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0.321569, 0.309804, 0.403922, 1)
+theme_override_font_sizes/font_size = 512
+text = "π"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="MainInteraction" type="MarginContainer" parent="CanvasLayer"]
 anchors_preset = 15
 anchor_right = 1.0
@@ -48,7 +66,7 @@ size_flags_vertical = 3
 theme = ExtResource("1_sb2wf")
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_right = 15
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_bottom = 20
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MainInteraction"]
 layout_mode = 2
@@ -61,11 +79,12 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_bewck")
 clip_tabs = false
 tabs_visible = false
 script = ExtResource("2_epmr2")
-tab_btns = [NodePath("../TabBtns/Button"), NodePath("../TabBtns/Button2"), NodePath("../TabBtns/Button3")]
+tab_btns = [NodePath("../TabBtns/Button"), NodePath("../TabBtns/Button2")]
 
 [node name="Board" type="VBoxContainer" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer" node_paths=PackedStringArray("msg_display")]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/separation = 20
 script = ExtResource("1_ofu35")
 msg_display = NodePath("ScrollContainer/MarginContainer/MsgDisplay")
 
@@ -112,11 +131,72 @@ error_displayer = NodePath("../ErrorDispay")
 layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "Enter a number with the selected length"
+virtual_keyboard_enabled = false
+clear_button_enabled = true
+
+[node name="LineEditHook" type="Node" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Board/NumberInput/LineEdit" node_paths=PackedStringArray("hide_keyboard_btn", "line_edit", "keyboard", "on_screen_keyboard")]
+script = ExtResource("7_dqcqt")
+hide_keyboard_btn = NodePath("../../../Keyboard/HideKeyboardBtn")
+line_edit = NodePath("..")
+keyboard = NodePath("../../../Keyboard")
+on_screen_keyboard = NodePath("../../../Keyboard/TabContainer/Numpad")
 
 [node name="SubmitButton" type="Button" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Board/NumberInput"]
 layout_mode = 2
 tooltip_text = "Submit the answer"
 text = "Submit"
+
+[node name="Keyboard" type="VBoxContainer" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Board" node_paths=PackedStringArray("line_edit", "btns")]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("8_pays2")
+script = ExtResource("9_tcuso")
+line_edit = NodePath("../NumberInput/LineEdit")
+btns = [NodePath("TabContainer/Actions/Button"), NodePath("TabContainer/Actions/Button2"), NodePath("TabContainer/Actions/Button3")]
+
+[node name="HideKeyboardBtn" type="Button" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Board/Keyboard"]
+layout_mode = 2
+text = "Hide"
+
+[node name="TabContainer" type="TabContainer" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Board/Keyboard"]
+layout_mode = 2
+size_flags_vertical = 3
+tab_alignment = 1
+current_tab = 1
+all_tabs_in_front = true
+
+[node name="Numpad" type="PanelContainer" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Board/Keyboard/TabContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("7_2j2em")
+autoShow = false
+customLayoutFile = "res://addons/onscreenkeyboard/customize/keyboardLayouts/keyboard_layout_num_thaiminh2022.json"
+font = ExtResource("8_ppemw")
+fontColorNormal = Color(0.878431, 0.870588, 0.956863, 1)
+fontColorPressed = Color(0.964706, 0.756863, 0.466667, 1)
+
+[node name="Actions" type="VBoxContainer" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Board/Keyboard/TabContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Board/Keyboard/TabContainer/Actions"]
+layout_mode = 2
+text = "Surrender"
+script = ExtResource("12_25sm0")
+command = "/ff"
+
+[node name="Button2" type="Button" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Board/Keyboard/TabContainer/Actions"]
+layout_mode = 2
+text = "Clear"
+script = ExtResource("12_25sm0")
+command = "/clear"
+
+[node name="Button3" type="Button" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Board/Keyboard/TabContainer/Actions"]
+layout_mode = 2
+text = "Recall"
+script = ExtResource("12_25sm0")
+command = "/recall"
 
 [node name="Menu" type="Control" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer" node_paths=PackedStringArray("restart_btn", "main_menu_btn")]
 visible = false
@@ -150,23 +230,6 @@ text = "Restart"
 layout_mode = 2
 text = "Main Menu"
 
-[node name="Notebox" type="Control" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer" node_paths=PackedStringArray("text_edit")]
-visible = false
-layout_mode = 2
-script = ExtResource("9_vpyvs")
-text_edit = NodePath("TextEdit")
-
-[node name="TextEdit" type="TextEdit" parent="CanvasLayer/MainInteraction/VBoxContainer/TabContainer/Notebox"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-placeholder_text = "Input some notes"
-scroll_smooth = true
-metadata/_edit_use_anchors_ = true
-
 [node name="TabBtns" type="HBoxContainer" parent="CanvasLayer/MainInteraction/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 25
@@ -180,18 +243,11 @@ text = "Page 1"
 
 [node name="Button2" type="Button" parent="CanvasLayer/MainInteraction/VBoxContainer/TabBtns"]
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 3
 toggle_mode = true
 text = "Page 2"
 
-[node name="Button3" type="Button" parent="CanvasLayer/MainInteraction/VBoxContainer/TabBtns"]
-layout_mode = 2
-size_flags_horizontal = 3
-toggle_mode = true
-text = "Page 1"
-
 [node name="NewGameOverlay" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("number_line_edit", "submit_btn")]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -200,7 +256,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("7_8y1ee")
 script = ExtResource("5_hyyie")
-number_line_edit = NodePath("MarginContainer/Content/Number Len input/LineEditNumber")
+number_line_edit = NodePath("MarginContainer/Content/Number Len input/NumInput")
 submit_btn = NodePath("MarginContainer/Content/Number Len input/Button")
 
 [node name="ColorOverlay" type="ColorRect" parent="CanvasLayer/NewGameOverlay"]
@@ -211,6 +267,20 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.121569, 0.113725, 0.180392, 1)
+
+[node name="bg_word" type="Label" parent="CanvasLayer/NewGameOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0.321569, 0.309804, 0.403922, 1)
+theme_override_font_sizes/font_size = 512
+text = "π"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/NewGameOverlay"]
 layout_mode = 1
@@ -239,13 +309,9 @@ layout_mode = 2
 size_flags_vertical = 6
 text = "Choose number length"
 
-[node name="LineEditNumber" type="LineEdit" parent="CanvasLayer/NewGameOverlay/MarginContainer/Content/Number Len input"]
+[node name="NumInput" type="LineEdit" parent="CanvasLayer/NewGameOverlay/MarginContainer/Content/Number Len input"]
 layout_mode = 2
-size_flags_vertical = 6
-tooltip_text = "A number from 1 to 10"
-placeholder_text = "1 to 10"
-alignment = 1
-max_length = 2
+virtual_keyboard_enabled = false
 clear_button_enabled = true
 script = ExtResource("4_wf20e")
 min_value = 1
@@ -255,6 +321,7 @@ max_value = 10
 layout_mode = 2
 size_flags_vertical = 6
 tooltip_text = "Start the game"
+focus_mode = 0
 text = "Start"
 
 [node name="Tutorial" type="VBoxContainer" parent="CanvasLayer/NewGameOverlay/MarginContainer/Content"]
@@ -279,7 +346,28 @@ text = "1. Choose the length of number to generate
 /recall: recall guesses"
 autowrap_mode = 2
 
-[node name="EndGameDisplay" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("number_guess_amount", "position_guess_amount", "total_guess_amount", "end_game_state_display", "stats_display", "open_stat_btn")]
+[node name="OnScreenKeyboard" type="PanelContainer" parent="CanvasLayer/NewGameOverlay"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -1268.0
+offset_bottom = -653.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("7_2j2em")
+customLayoutFile = "res://addons/onscreenkeyboard/customize/keyboardLayouts/keyboard_layout_num.json"
+
+[node name="LineEditHook" type="Node" parent="CanvasLayer/NewGameOverlay/OnScreenKeyboard" node_paths=PackedStringArray("hide_keyboard_btn", "line_edit", "keyboard", "on_screen_keyboard")]
+editor_description = "IF auto show, only on_screen_keyboard is needed"
+script = ExtResource("7_dqcqt")
+hide_keyboard_btn = NodePath("../../MarginContainer/Content/Number Len input/Button")
+line_edit = NodePath("../../MarginContainer/Content/Number Len input/NumInput")
+keyboard = NodePath("..")
+on_screen_keyboard = NodePath("..")
+
+[node name="EndGameDisplay" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("number_guess_amount", "position_guess_amount", "total_guess_amount", "stats_display", "end_game_state_display", "close_stat_btn", "open_stat_btn")]
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -293,29 +381,28 @@ script = ExtResource("7_0xcqt")
 number_guess_amount = NodePath("Stats/MarginContainer/VBoxContainer/NumberGuessDisplay/NumberGuessCount")
 position_guess_amount = NodePath("Stats/MarginContainer/VBoxContainer/PositionGuessDisplay/PositionGuessCount")
 total_guess_amount = NodePath("Stats/MarginContainer/VBoxContainer/TotalGuessdisplay/TotalGuessAmount")
-end_game_state_display = NodePath("Stats/MarginContainer/VBoxContainer/EndGameStateText")
 stats_display = NodePath("Stats")
+end_game_state_display = NodePath("Stats/MarginContainer/VBoxContainer/EndGameStateText")
+close_stat_btn = NodePath("CloseDisplay")
 open_stat_btn = NodePath("ReopenDisplay")
 
 [node name="ReopenDisplay" type="Button" parent="CanvasLayer/EndGameDisplay"]
+modulate = Color(1, 1, 1, 0.498039)
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -4.0
-offset_right = 4.0
-offset_bottom = 8.0
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 57.0
 grow_horizontal = 2
 text = "Result"
 
-[node name="Stats" type="Button" parent="CanvasLayer/EndGameDisplay"]
+[node name="Stats" type="Control" parent="CanvasLayer/EndGameDisplay"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_default_cursor_shape = 2
+mouse_filter = 2
 
 [node name="ColorOverlay" type="ColorRect" parent="CanvasLayer/EndGameDisplay/Stats"]
 layout_mode = 1
@@ -412,7 +499,19 @@ theme_override_styles/separator = SubResource("StyleBoxFlat_odyyt")
 [node name="Label" type="Label" parent="CanvasLayer/EndGameDisplay/Stats/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.321569, 0.309804, 0.403922, 1)
-text = "Click any where to close"
+text = "Click any where below to close"
 horizontal_alignment = 1
+
+[node name="CloseDisplay" type="Button" parent="CanvasLayer/EndGameDisplay"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -499.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_default_cursor_shape = 2
+flat = true
 
 [node name="GameManager" parent="." instance=ExtResource("1_nm307")]

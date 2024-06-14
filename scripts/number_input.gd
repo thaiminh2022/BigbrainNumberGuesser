@@ -10,17 +10,15 @@ func _ready() -> void:
     
     submit_btn.pressed.connect(_submit_number);
     num_line_edit.text_submitted.connect(func(_t): _submit_number())
-    num_line_edit.focus_entered.connect(on_line_edit_focus_web);
 
 func _setup_max_len() -> void:
     var placeholder := str(GameManager.instance.game_settings.number_length)
     num_line_edit.placeholder_text = "Number length: " + placeholder;
-
 func _submit_number() -> void:
     var text := num_line_edit.text.strip_edges();
     
     # Check if it's a command and execute it
-    if do_command(text):
+    if _do_command(text):
         num_line_edit.clear();
         return
 
@@ -30,11 +28,7 @@ func _submit_number() -> void:
     if is_valid:
         GameManager.instance.guess_number(number)
         num_line_edit.clear();
-
-func on_line_edit_focus_web():
-    DisplayServer.virtual_keyboard_show(num_line_edit.text)
-
-func do_command(text: String) -> bool:
+func _do_command(text: String) -> bool:
     
     match text:
         "/ff":
@@ -59,7 +53,7 @@ func _is_valid_text(text: String) -> bool:
         return false;
     
     if !text.is_valid_int():
-        error_displayer.display_error("Not number");
+        error_displayer.display_error("Not a number");
         return false;
 
     # Triple checking if there are any duplicated number
