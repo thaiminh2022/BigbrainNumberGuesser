@@ -8,7 +8,22 @@
 - The game is supposed to be play by 2 players / teams
 - The version of the game coded here is only for 1 player.
 
-## Rules
+## How to play - this game
+
+- This game has 2 stages, digit guess and position guess
+- Choose the amount of digits you want to guess.
+
+### Stage 1 - Guess the digits
+
+- Player will try to guess the digits in the number
+- Nx -> x correct digits
+
+### Stage 2 - Guess the position
+
+- Player will try to guess the position of each digits (whole number)
+- Px -> x correct positions
+
+## How to play - original
 - Each player / team will agreed on the number of digits the number has
 - A random number is selected for each player / team, each digit in the number **has to be unique**
 
